@@ -1,6 +1,8 @@
+// src/pages/LoginPage.jsx
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { login } from '../api/authApi'
+import AuthShell from '../components/AuthShell.jsx'
 
 function LoginPage() {
   const [email, setEmail] = useState('')
@@ -15,7 +17,6 @@ function LoginPage() {
     setLoading(true)
     try {
       await login({ email, password })
-      // 로그인 성공하면 OTP 단계로 진입
       navigate('/verify-otp', { state: { email } })
     } catch (err) {
       setError(err.response?.data?.message || '로그인 실패')
@@ -25,37 +26,58 @@ function LoginPage() {
   }
 
   return (
-    <div style={{ maxWidth: 400, margin: '40px auto' }}>
-      <h2>수빈은행 로그인</h2>
+    <AuthShell
+      title="로그인"
+      subtitle="계정 정보로 로그인 후 OTP(2차 인증)를 완료하세요."
+      rightHint="SubinBank · Secure Login"
+    >
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>이메일</label>
+        <div className="field">
+          <div className="labelRow">
+            <label className="label">이메일</label>
+          </div>
           <input
+            className="input"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+            autoComplete="email"
             required
           />
         </div>
-        <div>
-          <label>비밀번호</label>
+
+        <div className="field">
+          <div className="labelRow">
+            <label className="label">비밀번호</label>
+          </div>
           <input
+            className="input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+            autoComplete="current-password"
             required
           />
         </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit" disabled={loading}>
-          {loading ? '진행 중...' : '로그인'}
-        </button>
+
+        {error && <div className="alert alertDanger">{error}</div>}
+
+        <div className="btnRow">
+          <button className="btn btnPrimary" type="submit" disabled={loading}>
+            {loading ? '로그인 중…' : '로그인'}
+          </button>
+          <button className="btn" type="button" onClick={() => navigate('/register')}>
+            회원가입
+          </button>
+        </div>
       </form>
 
-      <button onClick={() => navigate('/register')} style={{ marginTop: 10 }}>
-        회원가입
-      </button>
-    </div>
+      <div style={{ marginTop: 14 }} className="pill">
+        Tip: OTP 페이지로 넘어가면 이메일 기준으로 검증합니다.
+      </div>
+    </AuthShell>
   )
 }
 
