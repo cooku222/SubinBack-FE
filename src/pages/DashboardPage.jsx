@@ -99,27 +99,6 @@ function DashboardPage() {
             </div>
           </div>
 
-          {/* 계정 요약 */}
-          <div className="card">
-            <h3 className="cardTitle">계정 요약</h3>
-            <p className="cardSub">실제 앱 느낌을 위해 “요약 카드” 형태로 배치.</p>
-
-            <div className="stat" style={{ background: 'rgba(0,0,0,.18)' }}>
-              <div className="statLabel">상태</div>
-              <div className="statValue">정상</div>
-            </div>
-
-            <div style={{ marginTop: 10 }} className="stat">
-              <div className="statLabel">보안 레벨</div>
-              <div className="statValue">OTP Enabled</div>
-            </div>
-
-            <div style={{ marginTop: 10 }} className="stat">
-              <div className="statLabel">세션</div>
-              <div className="statValue">AccessToken 저장됨</div>
-            </div>
-          </div>
-
           {/* 계좌 조회 */}
           <div className="card">
             <h3 className="cardTitle">계좌 조회</h3>
