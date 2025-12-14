@@ -2,7 +2,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getMe } from '../api/authApi'
-import { getAccountById } from '../api/accountApi'
+import { getAccountById, getMyAccount } from '../api/accountApi'
+
 
 function DashboardPage() {
   const [user, setUser] = useState(null)
@@ -12,7 +13,6 @@ function DashboardPage() {
   // 계좌 조회용 state
   const [account, setAccount] = useState(null)
   const [accountError, setAccountError] = useState('')
-  const [accountId, setAccountId] = useState('1')
 
   const navigate = useNavigate()
 
@@ -21,7 +21,7 @@ function DashboardPage() {
       try {
         const res = await getMe()
         setUser(res.data)
-        await fetchAccount()
+        await fetchMyAccount()
       } catch (err) {
         setError('사용자 정보를 불러오는데 실패했습니다.')
       } finally {
@@ -31,16 +31,15 @@ function DashboardPage() {
     fetchMe()
   }, [])
 
-  const fetchAccount = async () => {
+  const fetchMyAccount = async () => {
     setAccount(null)
     setAccountError('')
     try {
-      const res = await getAccountById(accountId)
+      const res = await getMyAccount()
       setAccount(res.data)
     } catch (e) {
       const status = e.response?.status
-      if (status === 403) setAccountError('권한이 없습니다 (403)')
-      else if (status === 401) setAccountError('로그인이 필요합니다 (401)')
+      if (status === 401) setAccountError('로그인이 필요합니다 (401)')
       else setAccountError('계좌 조회 실패')
     }
   }

@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+
 const api = axios.create({
   baseURL: 'http://localhost:8080',
 })
@@ -11,3 +12,4 @@ api.interceptors.request.use((config) => {
 })
 
 export const getAccountById = (id) => api.get(`/api/accounts/${id}`)
+export const getMyAccount = () => api.get('/api/accounts/${id}/my')
