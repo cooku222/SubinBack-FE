@@ -35,7 +35,7 @@ function DashboardPage() {
     setAccount(null)
     setAccountError('')
     try {
-      const res = await getMyAccount()
+      const res = await getAccountById(2)
       setAccount(res.data)
     } catch (e) {
       const status = e.response?.status
